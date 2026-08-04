@@ -18,7 +18,8 @@ trade repository feed.
 
 | | |
 |---|---|
-| **Validation rules** | 50 (40 `ERROR`, 10 `WARNING`) across 10 EMIR Refit fields |
+| **Validation rules** | 50 engine-runnable rules (40 `ERROR`, 10 `WARNING`) across 10 EMIR Refit fields |
+| **ESMA rule reference** | 480 **real** ESMA validation rules extracted from ESMA74-362-2683, covering 202 reportable fields |
 | **Test trades** | 650 rows across 4 CSV fixtures (1 baseline + 3 variations) |
 | **Reference data** | 200 GLEIF LEI records (194 real, from the GLEIF API) + 7 DSB UPI records |
 | **Engine** | ~500 lines of dependency-light Python (`openpyxl` only) |
@@ -33,6 +34,7 @@ trade repository feed.
 - [Screenshots](#screenshots)
 - [Repository layout](#repository-layout)
 - [The rule set](#the-rule-set)
+- [The real ESMA rule reference](#the-real-esma-rule-reference)
 - [Trade fixtures](#trade-fixtures)
 - [Reference data](#reference-data)
 - [The output workbook](#the-output-workbook)
@@ -101,7 +103,8 @@ Upload a trade CSV and ask the agent to validate it. Here
 ```
 EMIR/
 ├── reference_data/
-│   ├── validation_rules.json        # the 50 rules under test
+│   ├── validation_rules.json        # the 50 rules the engine runs
+│   ├── validation_rules_esma_refit.json   # 480 real ESMA rules (reference/spec)
 │   ├── gleif_lei_reference.json     # 200 LEI records (194 real, from GLEIF)
 │   └── dsb_upi_reference.json       # 7 UPI records
 ├── trade_data_200_v2.csv            # 200-row baseline fixture
@@ -119,7 +122,8 @@ EMIR/
 
 | File | Purpose |
 |---|---|
-| [reference_data/validation_rules.json](reference_data/validation_rules.json) | A JSON **array** of 50 rule objects — the functional spec under test. |
+| [reference_data/validation_rules.json](reference_data/validation_rules.json) | A JSON **array** of 50 rule objects — the functional spec the engine runs. |
+| [reference_data/validation_rules_esma_refit.json](reference_data/validation_rules_esma_refit.json) | A JSON **array** of 480 **real ESMA** validation rules, extracted from the official workbook. Reference/spec only — [not engine-runnable](#the-real-esma-rule-reference). |
 | [reference_data/gleif_lei_reference.json](reference_data/gleif_lei_reference.json) | LEI-status lookup backing `R023`/`R024`/`R043`/`R044`. |
 | [reference_data/dsb_upi_reference.json](reference_data/dsb_upi_reference.json) | UPI-status lookup backing `R022`/`R042`. |
 | [trade_data_200_v2.csv](trade_data_200_v2.csv) | Primary fixture: 108 rule-targeted rows + 92 valid baseline rows. |
@@ -248,6 +252,143 @@ code, SQL, or a rules-engine expression.
 | `R050` | AssetClass | DataQuality | WARN | `AssetClass = 'OT'` |
 
 </details>
+
+---
+
+## The real ESMA rule reference
+
+[reference_data/validation_rules_esma_refit.json](reference_data/validation_rules_esma_refit.json)
+holds **480 actual ESMA validation rules** — not paraphrases. Every rule carries
+its real ESMA error code and verbatim rule text, extracted programmatically from
+the official workbook:
+
+> **ESMA74-362-2683** — *"EMIR REFIT validation rules, reconciliation tolerances
+> and template for notifications of DQ issues"*, last updated **6 September
+> 2023**. These are the validation rules trade repositories apply under the EMIR
+> Refit reporting standards, applicable from 29 April 2024.
+> [Download from ESMA](https://www.esma.europa.eu/sites/default/files/library/esma74-362-2683_emir_refit_validation_rules_reconciliation_tolerances_and_template_for_notifications_of_dq_issues.xlsx)
+> · [ESMA EMIR Reporting page](https://www.esma.europa.eu/data-reporting/emir-reporting)
+
+In the source workbook each reportable field carries a numbered list of
+validation conditions and a matching numbered list of error codes. **One
+(condition, error code) pair became one rule object**, keyed by the real code.
+
+### Coverage
+
+| | |
+|---|---|
+| **Rules** | 480, every `ruleId` unique |
+| **Fields covered** | 202 distinct reportable fields |
+| **Table 1** (counterparty data) | 61 rules |
+| **Table 2** (common/derivative data) | 335 rules |
+| **Table 3** (margin data) | 79 rules |
+| **Non-field-specific** | 5 rules — `EMIR-XML-001/002`, `EMIR-AUTH-001/002`, `EMIR-VR-0000-00` |
+| **Severity** | all `ERROR` — an ESMA validation failure means the TR **rejects** the report |
+
+Sections span the full reporting schema: parties to the derivative, identifiers
+and links, contract information, valuation, collateral, clearing, risk
+mitigation, interest rates, FX, credit, commodities and energy, options, and
+modifications.
+
+### Schema — a strict superset of `validation_rules.json`
+
+The six core keys are byte-identical in meaning, so both files speak the same
+language. Everything ESMA-specific is namespaced under `esma`.
+
+```json
+{
+  "ruleId": "EMIR-VR-1001-04",
+  "field": "Reporting timestamp",
+  "type": "Consistency",
+  "condition": "The reporting timestamp should be equal or later than the execution timestamp reported in the field 2.42.",
+  "severity": "ERROR",
+  "message": "Report rejected by the trade repository: ... (ESMA EMIR-VR-1001-04, Table 1 field 1.1 'Reporting timestamp')",
+  "esma": {
+    "sourceDocument": "ESMA74-362-2683",
+    "sourceUpdated": "2023-09-06",
+    "table": 1,
+    "fieldNumber": "1.1",
+    "section": "Parties to the derivative",
+    "fieldName": "Reporting timestamp",
+    "conditionIndex": 4,
+    "reportedDetails": "Date and time of the submission of the report to the trade repository.",
+    "format": "ISO 8601 date in the Coordinated Universal Time (UTC) time format YYYY-MM-DDThh:mm:ssZ",
+    "level": "Trade and position",
+    "applicability": { "NEWT": "M", "MODI": "M", "VALU": "M", "CORR": "M",
+                       "TERM": "M", "EROR": "M", "REVI": "M", "POSC": "M" },
+    "typeIsDerived": true,
+    "reconciliationTolerance": "NA",
+    "reconciliationStartDate": "NA"
+  }
+}
+```
+
+`esma.applicability` is ESMA's own mandatory-nature matrix per action type:
+
+| Code | Meaning |
+|---|---|
+| `M` | Mandatory — strictly required; format and content validations apply |
+| `C` | Conditionally mandatory — required if the rule's conditions are met |
+| `O` | Optional — populate whenever the field is relevant to the scenario |
+| `-` | Not applicable — the field shall be left blank |
+
+### What is real and what is derived
+
+> [!IMPORTANT]
+> `condition`, `ruleId`, `field`, `format`, `reportedDetails`, `section`,
+> `applicability` and the reconciliation columns are **verbatim from ESMA**.
+> Verified mechanically: all 475 field-specific conditions appear as literal
+> substrings of their source cells, and all 480 rule IDs appear in their source
+> error-code cells.
+>
+> `type` is **derived**, not ESMA-provided — a classifier infers it from the
+> condition text so these rules share the evaluation-scope vocabulary used by
+> `validation_rules.json`. Every rule is flagged `"typeIsDerived": true`. Don't
+> treat it as normative; 35 rules fall into a `Content` catch-all where no
+> pattern matched. `message` is likewise constructed (a rejection message
+> wrapping the verbatim condition).
+
+Derived type distribution:
+
+| Type | Count | | Type | Count |
+|---|---|---|---|---|
+| `Mandatory` | 123 | | `Range` | 17 |
+| `Conditional` | 121 | | `Format` | 13 |
+| `Enumeration` | 79 | | `Immutability` | 6 |
+| `Referential` | 48 | | `Timeliness` | 4 |
+| `Content` (catch-all) | 35 | | `Technical` | 2 |
+| `Consistency` | 30 | | `Authorisation` | 2 |
+
+### This file is a specification, not a runnable rule set
+
+> [!WARNING]
+> **Pointing the engine at it fails.** `Engine.__init__` builds its evaluator map
+> from hardcoded IDs `R001`–`R050`, then `Engine.run` looks each one up in the
+> loaded rule file. ESMA IDs like `EMIR-VR-1001-04` don't match, so:
+>
+> ```
+> python .../validate_and_report.py --trades trade_data_200_v2.csv \
+>        --rules reference_data/validation_rules_esma_refit.json
+> KeyError: 'R001'
+> ```
+>
+> Running these rules means writing 480 evaluators and a dispatch keyed on ESMA
+> codes — and a trade schema far wider than the current 16 columns, since these
+> rules reference the full ~200-field EMIR Refit report.
+
+Use it instead as the **authority to check the hand-written rules against**: the
+50 rules in `validation_rules.json` were written in ESMA's idiom, and this file
+is the actual text they were modelled on. `esma.fieldNumber` is the join key —
+e.g. the project's `R038` (report by execution + 1 working day) corresponds to
+ESMA field 1.1 `Reporting timestamp`, codes `EMIR-VR-1001-01` through `-05`.
+
+> [!NOTE]
+> ESMA revises this workbook. The extraction is pinned to the 6 September 2023
+> version; re-download from the
+> [EMIR Reporting page](https://www.esma.europa.eu/data-reporting/emir-reporting)
+> and re-extract rather than hand-editing. One quirk preserved from the source:
+> field 2.42's third error code is printed `EMIR -VR-2042-03` with a stray space
+> — the extractor normalises it to `EMIR-VR-2042-03`.
 
 ---
 
@@ -467,6 +608,8 @@ not an oversight.
 | 5 | **`R033`'s "submitting entity" is a hardcoded constant.** | Update `SUBMITTING_ENTITY_LEI` (or promote it to a CLI flag) before validating another reporting entity's file. |
 | 6 | **Reference tables don't cover every identifier the fixtures use.** Trade rows reference LEIs (`213800MELBOURNEFI001`, `894500ZZTOPCOUNTER01`, `549300TOKYOBANKCORP1`) and UPIs (`IRSOISUSD001`, `IRSFIXFLT002`, `EQUITYSWP001`, …) absent from GLEIF/DSB data. | Those rows fail `R022`/`R023`/`R024` as not-found — which inflates failure counts beyond each row's intended target rule. Point `--gleif`/`--dsb` at richer files, or add the records, if you want those rows clean. |
 | 7 | **`Referential` rules only prove lookup logic.** | They show the validator resolves and interprets registry data correctly — not that it's wired to a live GLEIF/DSB feed. |
+| 8 | **The ESMA rule reference isn't executable.** `validation_rules_esma_refit.json` uses real ESMA IDs; the engine dispatches on hardcoded `R001`–`R050`. | `--rules <that file>` raises `KeyError: 'R001'`. It's a specification to check the hand-written rules against — see [the section above](#this-file-is-a-specification-not-a-runnable-rule-set). |
+| 9 | **`type` in the ESMA rule file is derived, not normative.** A classifier infers it from the condition text. | 35 of 480 land in a `Content` catch-all. Every rule is flagged `"typeIsDerived": true`; use `condition` as the authority. |
 
 ---
 
