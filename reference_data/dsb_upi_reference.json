@@ -1,0 +1,76 @@
+{
+  "description": "Mock Derivatives Service Bureau (DSB) UPI reference data used to evaluate EMIR validation rules R022 and R042 from validation_rules.json. In production these checks call the live DSB UPI reference service; this file stands in for that lookup in tests.",
+  "lookupKey": "upi",
+  "usedByRules": ["R022", "R042"],
+  "notes": [
+    "R022 (ERROR) fails when the trade's UPI is not present in this table with status 'ACTIVE' as of the trade's ExecutionTimestamp.",
+    "R042 (WARNING) fires when lastRefreshDate is more than 180 days before the trade's ReportingTimestamp.",
+    "'ZZZUNKNOWN01' is intentionally absent from this table to simulate a UPI that does not exist in the DSB (NOT_FOUND) -- it is used by the R022 fail test row.",
+    "'IRSFIXFLTOLD' is present but deliberately stale (lastRefreshDate far in the past) -- it is used by the R042 warning test row."
+  ],
+  "records": [
+    {
+      "upi": "COMMODSWP001",
+      "productShortName": "Commodity Swap - Generic",
+      "assetClass": "CO",
+      "instrumentType": "Swap",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "CREDITCDS001",
+      "productShortName": "Credit Default Swap - Single Name",
+      "assetClass": "CR",
+      "instrumentType": "Swap",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "EQUITYOPT001",
+      "productShortName": "Equity Option - Single Stock",
+      "assetClass": "EQ",
+      "instrumentType": "Option",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "IRSFIXFLT001",
+      "productShortName": "Interest Rate Swap - Fixed/Float",
+      "assetClass": "IR",
+      "instrumentType": "Swap",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "FXFWDUSDEUR1",
+      "productShortName": "FX Forward - USD/EUR",
+      "assetClass": "CU",
+      "instrumentType": "Forward",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "OTHEXOTIC001",
+      "productShortName": "Other / Exotic Derivative",
+      "assetClass": "OT",
+      "instrumentType": "Exotic",
+      "status": "ACTIVE",
+      "issueDate": "2022-01-04",
+      "lastRefreshDate": "2026-01-15"
+    },
+    {
+      "upi": "IRSFIXFLTOLD",
+      "productShortName": "Interest Rate Swap - Fixed/Float (legacy taxonomy vintage)",
+      "assetClass": "IR",
+      "instrumentType": "Swap",
+      "status": "ACTIVE",
+      "issueDate": "2019-03-10",
+      "lastRefreshDate": "2025-06-10"
+    }
+  ]
+}

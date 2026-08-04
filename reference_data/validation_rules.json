@@ -1,0 +1,402 @@
+[
+  {
+    "ruleId": "R001",
+    "field": "UTI",
+    "type": "Format",
+    "condition": "UTI matches regex ^[A-Z0-9]{18,52}$",
+    "severity": "ERROR",
+    "message": "UTI must be 18 to 52 alphanumeric characters (upper case letters and digits only), in line with the CPMI-IOSCO UTI technical guidance and ISO 23897."
+  },
+  {
+    "ruleId": "R002",
+    "field": "UPI",
+    "type": "Format",
+    "condition": "UPI matches regex ^[A-Z0-9]{12}$",
+    "severity": "ERROR",
+    "message": "UPI must be a 12-character alphanumeric code issued by the Derivatives Service Bureau (DSB) in accordance with ISO 4914."
+  },
+  {
+    "ruleId": "R003",
+    "field": "Counterparty1LEI",
+    "type": "Format",
+    "condition": "Counterparty1LEI matches regex ^[A-Z0-9]{18}[0-9]{2}$ AND passes ISO 17442 mod-97 checksum",
+    "severity": "ERROR",
+    "message": "Counterparty 1 LEI must be a valid 20-character LEI code with a correct ISO 17442 check digit checksum."
+  },
+  {
+    "ruleId": "R004",
+    "field": "Counterparty2LEI",
+    "type": "Format",
+    "condition": "Counterparty2LEI matches regex ^[A-Z0-9]{18}[0-9]{2}$ AND passes ISO 17442 mod-97 checksum, OR Counterparty2IdentifierType = 'NATURAL_PERSON'",
+    "severity": "ERROR",
+    "message": "Counterparty 2 identifier must be a valid 20-character LEI with correct checksum, unless the counterparty is a natural person not acting in a business capacity, in which case the natural-person identifier scheme must be used instead."
+  },
+  {
+    "ruleId": "R005",
+    "field": "NotionalAmount",
+    "type": "Format",
+    "condition": "NotionalAmount is numeric, > 0, with at most 25 digits and 5 decimal places",
+    "severity": "ERROR",
+    "message": "Notional amount must be a positive number with no more than 25 digits in total and no more than 5 digits following the decimal separator."
+  },
+  {
+    "ruleId": "R006",
+    "field": "Currency",
+    "type": "Format",
+    "condition": "Currency matches regex ^[A-Z]{3}$ AND Currency IN ISO4217ActiveCurrencyList",
+    "severity": "ERROR",
+    "message": "Currency must be a valid, currently active 3-letter ISO 4217 currency code."
+  },
+  {
+    "ruleId": "R007",
+    "field": "MaturityDate",
+    "type": "Format",
+    "condition": "MaturityDate matches ISO 8601 date format YYYY-MM-DD AND is a valid calendar date",
+    "severity": "ERROR",
+    "message": "Maturity date must be a valid calendar date expressed in ISO 8601 format (YYYY-MM-DD)."
+  },
+  {
+    "ruleId": "R008",
+    "field": "ReportingTimestamp",
+    "type": "Format",
+    "condition": "ReportingTimestamp matches ISO 8601 UTC datetime format YYYY-MM-DDThh:mm:ssZ",
+    "severity": "ERROR",
+    "message": "Reporting timestamp must be a valid UTC date-time expressed in ISO 8601 format (YYYY-MM-DDThh:mm:ssZ)."
+  },
+  {
+    "ruleId": "R009",
+    "field": "ActionType",
+    "type": "Format",
+    "condition": "ActionType IN {'NEWT','MODI','CORR','EROR','REVI','VALU','POSC','TERM','ETRM','COMP'}",
+    "severity": "ERROR",
+    "message": "Action type must be one of the permitted values defined in the EMIR Refit ITS: NEWT, MODI, CORR, EROR, REVI, VALU, POSC, TERM, ETRM or COMP."
+  },
+  {
+    "ruleId": "R010",
+    "field": "AssetClass",
+    "type": "Format",
+    "condition": "AssetClass IN {'CO','CR','CU','EQ','IR','OT'}",
+    "severity": "ERROR",
+    "message": "Asset class must be one of the permitted values: CO (Commodity), CR (Credit), CU (Currency), EQ (Equity), IR (Interest Rate) or OT (Other)."
+  },
+  {
+    "ruleId": "R011",
+    "field": "UTI",
+    "type": "Mandatory",
+    "condition": "UTI IS NOT NULL for all ActionType values",
+    "severity": "ERROR",
+    "message": "UTI is a mandatory field and must be populated on every report, regardless of action type."
+  },
+  {
+    "ruleId": "R012",
+    "field": "UPI",
+    "type": "Mandatory",
+    "condition": "UPI IS NOT NULL WHEN ActionType IN {'NEWT','MODI','CORR','REVI'} AND ContractType requires product identification",
+    "severity": "ERROR",
+    "message": "UPI must be populated for new, modified, corrected or revised reports of derivatives in scope of UPI identification requirements."
+  },
+  {
+    "ruleId": "R013",
+    "field": "Counterparty1LEI",
+    "type": "Mandatory",
+    "condition": "Counterparty1LEI IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Counterparty 1 LEI is a mandatory field and must not be blank."
+  },
+  {
+    "ruleId": "R014",
+    "field": "Counterparty2LEI",
+    "type": "Mandatory",
+    "condition": "Counterparty2LEI IS NOT NULL OR (Counterparty2IdentifierType = 'NATURAL_PERSON' AND Counterparty2NaturalPersonId IS NOT NULL)",
+    "severity": "ERROR",
+    "message": "An identifier for counterparty 2 is mandatory: either a valid LEI, or a natural-person identifier when counterparty 2 is not acting in a business capacity."
+  },
+  {
+    "ruleId": "R015",
+    "field": "NotionalAmount",
+    "type": "Mandatory",
+    "condition": "NotionalAmount IS NOT NULL WHEN NotionalScheduleFlag = false",
+    "severity": "ERROR",
+    "message": "Notional amount is mandatory for derivatives with a fixed notional; where the notional varies over the life of the contract, a notional schedule must be reported instead."
+  },
+  {
+    "ruleId": "R016",
+    "field": "Currency",
+    "type": "Mandatory",
+    "condition": "Currency IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Notional currency is a mandatory field and must not be blank."
+  },
+  {
+    "ruleId": "R017",
+    "field": "MaturityDate",
+    "type": "Mandatory",
+    "condition": "MaturityDate IS NOT NULL WHEN ContractType <> 'PERPETUAL'",
+    "severity": "ERROR",
+    "message": "Maturity date is mandatory for all derivatives with a defined end date; perpetual contracts must instead flag ContractType as PERPETUAL."
+  },
+  {
+    "ruleId": "R018",
+    "field": "ReportingTimestamp",
+    "type": "Mandatory",
+    "condition": "ReportingTimestamp IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Reporting timestamp is a mandatory field and must not be blank."
+  },
+  {
+    "ruleId": "R019",
+    "field": "ActionType",
+    "type": "Mandatory",
+    "condition": "ActionType IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Action type is a mandatory field and must be populated on every submitted report."
+  },
+  {
+    "ruleId": "R020",
+    "field": "AssetClass",
+    "type": "Mandatory",
+    "condition": "AssetClass IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Asset class is a mandatory field and must not be blank."
+  },
+  {
+    "ruleId": "R021",
+    "field": "UTI",
+    "type": "Consistency",
+    "condition": "UTI at t = UTI at t-1 WHEN ActionType IN {'MODI','VALU','POSC','COMP'} for the same derivative",
+    "severity": "ERROR",
+    "message": "UTI must remain unchanged across the lifecycle of a derivative; modification, valuation, position and compression reports must reference the UTI assigned at execution."
+  },
+  {
+    "ruleId": "R022",
+    "field": "UPI",
+    "type": "Referential",
+    "condition": "UPI EXISTS AND status = 'ACTIVE' in DSB UPI reference database AS OF ExecutionTimestamp",
+    "severity": "ERROR",
+    "message": "UPI must correspond to an active product code registered in the DSB UPI reference database as of the trade execution date."
+  },
+  {
+    "ruleId": "R023",
+    "field": "Counterparty1LEI",
+    "type": "Referential",
+    "condition": "Counterparty1LEI.status IN {'ISSUED','LAPSED'} in GLEIF database AS OF ReportingTimestamp",
+    "severity": "ERROR",
+    "message": "Counterparty 1 LEI must be registered in the GLEIF database with a status of ISSUED or LAPSED; DUPLICATE, RETIRED or MERGED records are not acceptable."
+  },
+  {
+    "ruleId": "R024",
+    "field": "Counterparty2LEI",
+    "type": "Referential",
+    "condition": "Counterparty2LEI.status IN {'ISSUED','LAPSED'} in GLEIF database AS OF ReportingTimestamp",
+    "severity": "ERROR",
+    "message": "Counterparty 2 LEI must be registered in the GLEIF database with a status of ISSUED or LAPSED; DUPLICATE, RETIRED or MERGED records are not acceptable."
+  },
+  {
+    "ruleId": "R025",
+    "field": "NotionalAmount",
+    "type": "Consistency",
+    "condition": "NotionalAmount.currency = Currency field value for every reported leg",
+    "severity": "ERROR",
+    "message": "The currency denomination of the notional amount must match the value reported in the Currency field for every leg of the derivative."
+  },
+  {
+    "ruleId": "R026",
+    "field": "Currency",
+    "type": "Referential",
+    "condition": "Currency IN ISO4217ActiveCurrencyList AS OF ReportingTimestamp",
+    "severity": "ERROR",
+    "message": "Currency must be an ISO 4217 code that is active as of the reporting date; withdrawn or historic currency codes are not accepted."
+  },
+  {
+    "ruleId": "R027",
+    "field": "MaturityDate",
+    "type": "Consistency",
+    "condition": "MaturityDate >= EffectiveDate AND MaturityDate >= ExecutionTimestamp.date",
+    "severity": "ERROR",
+    "message": "Maturity date must not be earlier than the effective date or the execution date of the derivative."
+  },
+  {
+    "ruleId": "R028",
+    "field": "ReportingTimestamp",
+    "type": "Consistency",
+    "condition": "ReportingTimestamp >= ExecutionTimestamp",
+    "severity": "ERROR",
+    "message": "Reporting timestamp must not be earlier than the execution timestamp of the derivative."
+  },
+  {
+    "ruleId": "R029",
+    "field": "ActionType",
+    "type": "Consistency",
+    "condition": "IF ActionType IN {'MODI','CORR','EROR','REVI','VALU','POSC','ETRM'} THEN a prior report with ActionType = 'NEWT' AND matching UTI MUST EXIST in trade repository history",
+    "severity": "ERROR",
+    "message": "Modification, correction, error, revival, valuation, position or early-termination reports must reference a UTI for which an original NEWT report already exists in the trade repository."
+  },
+  {
+    "ruleId": "R030",
+    "field": "AssetClass",
+    "type": "Consistency",
+    "condition": "AssetClass consistent with product taxonomy resolved from UPI reference data",
+    "severity": "ERROR",
+    "message": "Asset class must be consistent with the product classification derived from the reported UPI; mismatches between asset class and UPI taxonomy are not permitted."
+  },
+  {
+    "ruleId": "R031",
+    "field": "UTI",
+    "type": "Uniqueness",
+    "condition": "COUNT(UTI) = 1 WHERE ActionType = 'NEWT' AND Counterparty1LEI = generating entity, evaluated across full reporting history",
+    "severity": "ERROR",
+    "message": "A UTI generated by the reporting entity must not duplicate any UTI previously generated by that entity for a different derivative."
+  },
+  {
+    "ruleId": "R032",
+    "field": "UPI",
+    "type": "Consistency",
+    "condition": "UPI product taxonomy matches ContractType and AssetClass reported on the same report",
+    "severity": "ERROR",
+    "message": "The product taxonomy associated with the reported UPI must be consistent with the ContractType and AssetClass values reported on the same report."
+  },
+  {
+    "ruleId": "R033",
+    "field": "Counterparty1LEI",
+    "type": "Consistency",
+    "condition": "Counterparty1LEI = SubmittingEntityLEI OR Counterparty1LEI = ReportingCounterpartyLEI's delegated reporting mandate entity",
+    "severity": "ERROR",
+    "message": "Counterparty 1 LEI must correspond either to the report-submitting entity or to the counterparty on whose behalf reporting has been delegated."
+  },
+  {
+    "ruleId": "R034",
+    "field": "Counterparty2LEI",
+    "type": "Consistency",
+    "condition": "Counterparty2LEI <> Counterparty1LEI UNLESS IntragroupFlag = true",
+    "severity": "ERROR",
+    "message": "Counterparty 2 identifier must differ from Counterparty 1 LEI unless the report is flagged as an intragroup transaction."
+  },
+  {
+    "ruleId": "R035",
+    "field": "NotionalAmount",
+    "type": "Range",
+    "condition": "NotionalAmount > 0 AND consistent with Quantity * PriceNotation WHERE both fields populated",
+    "severity": "ERROR",
+    "message": "Notional amount must be strictly greater than zero and, where quantity and price notation are also reported, must be consistent with their product."
+  },
+  {
+    "ruleId": "R036",
+    "field": "Currency",
+    "type": "Consistency",
+    "condition": "Currency = DeliverableCurrency WHEN SettlementCurrency IS NULL",
+    "severity": "ERROR",
+    "message": "Notional currency must be consistent with the deliverable currency of the contract where no separate settlement currency is reported."
+  },
+  {
+    "ruleId": "R037",
+    "field": "MaturityDate",
+    "type": "Range",
+    "condition": "MaturityDate <= ExecutionTimestamp.date + 100 years",
+    "severity": "ERROR",
+    "message": "Maturity date more than 100 years after the execution date is considered implausible and must be reviewed before submission."
+  },
+  {
+    "ruleId": "R038",
+    "field": "ReportingTimestamp",
+    "type": "Timeliness",
+    "condition": "ReportingTimestamp <= ExecutionTimestamp + 1 working day",
+    "severity": "ERROR",
+    "message": "Report must be submitted no later than the working day following the conclusion, modification or termination of the derivative, in accordance with Article 9 of EMIR."
+  },
+  {
+    "ruleId": "R039",
+    "field": "ActionType",
+    "type": "Consistency",
+    "condition": "IF ActionType = 'COMP' THEN LinkedUTIs IS NOT NULL AND COUNT(LinkedUTIs) >= 2",
+    "severity": "ERROR",
+    "message": "Compression reports (ActionType = COMP) must reference at least two prior UTIs that were compressed into the resulting position."
+  },
+  {
+    "ruleId": "R040",
+    "field": "AssetClass",
+    "type": "Consistency",
+    "condition": "IF AssetClass = 'CU' THEN DeliverableCurrency IS NOT NULL AND SettlementCurrency IS NOT NULL",
+    "severity": "ERROR",
+    "message": "Where asset class is Currency (CU), both the deliverable currency and settlement currency legs must be populated."
+  },
+  {
+    "ruleId": "R041",
+    "field": "UTI",
+    "type": "DataQuality",
+    "condition": "LEFT(UTI, 20) <> UTIGeneratingEntityLEI",
+    "severity": "WARNING",
+    "message": "UTI prefix does not match the LEI of the UTI-generating entity; confirm the identifier follows the CPMI-IOSCO UTI technical guidance naming convention."
+  },
+  {
+    "ruleId": "R042",
+    "field": "UPI",
+    "type": "DataQuality",
+    "condition": "UPI last updated in DSB reference data > 180 days ago",
+    "severity": "WARNING",
+    "message": "UPI reference data has not been refreshed in the DSB database for over 180 days; recommend re-validating the product code for recent corporate action updates."
+  },
+  {
+    "ruleId": "R043",
+    "field": "Counterparty1LEI",
+    "type": "DataQuality",
+    "condition": "Counterparty1LEI.registrationRenewalDate < ReportingTimestamp + 30 days",
+    "severity": "WARNING",
+    "message": "Counterparty 1 LEI registration is due for renewal within 30 days; recommend confirming renewal to avoid the LEI lapsing to inactive status."
+  },
+  {
+    "ruleId": "R044",
+    "field": "Counterparty2LEI",
+    "type": "DataQuality",
+    "condition": "Counterparty2LEI.status = 'LAPSED'",
+    "severity": "WARNING",
+    "message": "Counterparty 2 LEI has a LAPSED registration status in GLEIF; the counterparty should be reminded to renew its registration."
+  },
+  {
+    "ruleId": "R045",
+    "field": "NotionalAmount",
+    "type": "Plausibility",
+    "condition": "NotionalAmount > 10,000,000,000 (in reporting currency equivalent)",
+    "severity": "WARNING",
+    "message": "Notional amount exceeds 10 billion in reporting currency equivalent; recommend manual plausibility review before submission."
+  },
+  {
+    "ruleId": "R046",
+    "field": "Currency",
+    "type": "DataQuality",
+    "condition": "Currency IN DeprecatedOrRedenominatedCurrencyList",
+    "severity": "WARNING",
+    "message": "Currency code is deprecated or has been redenominated; confirm the correct successor ISO 4217 code has been used."
+  },
+  {
+    "ruleId": "R047",
+    "field": "MaturityDate",
+    "type": "DataQuality",
+    "condition": "MaturityDate falls on a non-business day per applicable settlement calendar",
+    "severity": "WARNING",
+    "message": "Maturity date falls on a non-business day for the relevant settlement calendar; confirm the correct business day convention has been applied."
+  },
+  {
+    "ruleId": "R048",
+    "field": "ReportingTimestamp",
+    "type": "DataQuality",
+    "condition": "ReportingTimestamp within 2 hours of ExecutionTimestamp + 1 working day deadline",
+    "severity": "WARNING",
+    "message": "Report is being submitted close to the T+1 reporting deadline; recommend reviewing submission timing to reduce the risk of late reporting."
+  },
+  {
+    "ruleId": "R049",
+    "field": "ActionType",
+    "type": "DataQuality",
+    "condition": "COUNT(ActionType IN {'CORR','EROR'}) FOR SAME UTI > 3 WITHIN 30 days",
+    "severity": "WARNING",
+    "message": "More than three correction or error reports have been submitted for the same UTI within 30 days; recommend reviewing the upstream data quality process."
+  },
+  {
+    "ruleId": "R050",
+    "field": "AssetClass",
+    "type": "DataQuality",
+    "condition": "AssetClass = 'OT'",
+    "severity": "WARNING",
+    "message": "Asset class reported as Other (OT); recommend reviewing the product classification to confirm a more specific asset class code is not applicable."
+  }
+]

@@ -1,0 +1,76 @@
+{
+  "description": "Mock GLEIF LEI reference data used to evaluate EMIR validation rules R023, R024, R043 and R044 from validation_rules.json. In production these checks call the live GLEIF API/Golden Copy file; this file stands in for that lookup in tests.",
+  "lookupKey": "lei",
+  "usedByRules": ["R023", "R024", "R043", "R044"],
+  "notes": [
+    "R023/R024 (ERROR) fail when registrationStatus is NOT 'ISSUED' or 'LAPSED' (e.g. RETIRED, DUPLICATE, MERGED, ANNULLED).",
+    "R043 (WARNING) fires when nextRenewalDate is within 30 days of the trade's ReportingTimestamp.",
+    "R044 (WARNING) fires when Counterparty2LEI.registrationStatus = 'LAPSED' (LAPSED still passes R023/R024, since LAPSED is an accepted status for those error checks).",
+    "Any LEI in a trade record that does not appear in this table should be treated as NOT_FOUND and fail R023/R024."
+  ],
+  "records": [
+    {
+      "lei": "5493001KJTIIGC8Y1R12",
+      "entityName": "Alpha Global Markets PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2018-04-12",
+      "lastUpdateDate": "2025-11-03",
+      "nextRenewalDate": "2027-01-10",
+      "managingLOU": "RA000463"
+    },
+    {
+      "lei": "213800D1EI4B9WTWWD28",
+      "entityName": "Beta Capital Investments SA",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2019-06-20",
+      "lastUpdateDate": "2025-12-01",
+      "nextRenewalDate": "2027-02-15",
+      "managingLOU": "RA000463"
+    },
+    {
+      "lei": "724500ABCDEFGH123474",
+      "entityName": "Gamma Derivatives Trading GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2020-02-05",
+      "lastUpdateDate": "2025-10-18",
+      "nextRenewalDate": "2026-12-01",
+      "managingLOU": "RA000463"
+    },
+    {
+      "lei": "969500RETIREDLEI0035",
+      "entityName": "Delta Legacy Trading Ltd (merged into Alpha Global Markets PLC)",
+      "jurisdiction": "GB",
+      "registrationStatus": "RETIRED",
+      "registrationStatusReason": "MERGED_WITH_ANOTHER_ENTITY",
+      "initialRegistrationDate": "2015-03-01",
+      "lastUpdateDate": "2024-11-01",
+      "nextRenewalDate": null,
+      "managingLOU": "RA000463",
+      "successorLei": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "788500LAPSEDLEI00007",
+      "entityName": "Epsilon Fund Services Ltd",
+      "jurisdiction": "IE",
+      "registrationStatus": "LAPSED",
+      "registrationStatusReason": "REGISTRATION_NOT_RENEWED",
+      "initialRegistrationDate": "2017-08-22",
+      "lastUpdateDate": "2025-09-01",
+      "nextRenewalDate": "2025-09-01",
+      "managingLOU": "RA000463"
+    },
+    {
+      "lei": "529900RENEWALDUE0021",
+      "entityName": "Zeta Asset Management SA",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2016-05-30",
+      "lastUpdateDate": "2025-05-20",
+      "nextRenewalDate": "2026-05-20",
+      "managingLOU": "RA000463"
+    }
+  ]
+}
