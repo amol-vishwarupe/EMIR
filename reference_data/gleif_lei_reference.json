@@ -6,7 +6,11 @@
     "R023/R024 (ERROR) fail when registrationStatus is NOT 'ISSUED' or 'LAPSED' (e.g. RETIRED, DUPLICATE, MERGED, ANNULLED).",
     "R043 (WARNING) fires when nextRenewalDate is within 30 days of the trade's ReportingTimestamp.",
     "R044 (WARNING) fires when Counterparty2LEI.registrationStatus = 'LAPSED' (LAPSED still passes R023/R024, since LAPSED is an accepted status for those error checks).",
-    "Any LEI in a trade record that does not appear in this table should be treated as NOT_FOUND and fail R023/R024."
+    "Any LEI in a trade record that does not appear in this table should be treated as NOT_FOUND and fail R023/R024.",
+    "Records 1-6 are the original hand-built synthetic fixtures (LEIs 5493001KJTIIGC8Y1R12, 213800D1EI4B9WTWWD28, 724500ABCDEFGH123474, 969500RETIREDLEI0035, 788500LAPSEDLEI00007, 529900RENEWALDUE0021) and are kept verbatim so existing expected results stay valid.",
+    "Records 7 onward are real entities pulled from the GLEIF public API (https://api.gleif.org/api/v1/lei-records) -- real LEIs, legal names, registration statuses and renewal dates, normalised to this file's schema (GLEIF ISO timestamps truncated to YYYY-MM-DD). 'managingLOU' therefore holds the managing LOU's own 20-character LEI, not the RA000463-style code used by the six synthetic records.",
+    "GLEIF is a live registry: statuses and nextRenewalDate values in the real records reflect the registry at fetch time and will drift. Re-fetch rather than hand-edit if they need refreshing.",
+    "LEIs used by the trade CSVs as deliberate failure cases (213800MELBOURNEFI001, 894500ZZTOPCOUNTER01, 549300TOKYOBANKCORP1, INVALIDLEI*, 969500UNKNOWNLEI*, 788500LAPSEDLEI00019/87/142, 529900RENEWALDUE0088/0155/0266) are deliberately absent from this table."
   ],
   "records": [
     {
@@ -71,6 +75,1953 @@
       "lastUpdateDate": "2025-05-20",
       "nextRenewalDate": "2026-05-20",
       "managingLOU": "RA000463"
+    },
+    {
+      "lei": "7H6GLXDRUGQFU57RNE97",
+      "entityName": "JPMorgan Chase Bank, National Association",
+      "jurisdiction": "US",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-12-19",
+      "nextRenewalDate": "2026-12-28",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "W22LROWP2IHZNBB6K528",
+      "entityName": "GOLDMAN SACHS INTERNATIONAL",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-04-20",
+      "nextRenewalDate": "2027-04-27",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "4PQUHN3JPFGFNF3BB653",
+      "entityName": "MORGAN STANLEY & CO. INTERNATIONAL PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-10-15",
+      "nextRenewalDate": "2026-11-15",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "549300U8H3KN0K301B23",
+      "entityName": "CITIBANK UK LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2018-10-02",
+      "lastUpdateDate": "2026-05-09",
+      "nextRenewalDate": "2027-05-27",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "B4TYDEB6GKMZO031MB27",
+      "entityName": "Bank of America, National Association",
+      "jurisdiction": "US-NC",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-08-25",
+      "nextRenewalDate": "2026-09-07",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "GGDZP1UYGU9STUHRDP48",
+      "entityName": "MERRILL LYNCH INTERNATIONAL",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-08-29",
+      "nextRenewalDate": "2026-09-07",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "G5GSEF7VJP5I7OUK5573",
+      "entityName": "BARCLAYS BANK PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-04-13",
+      "nextRenewalDate": "2027-04-30",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "MP6I5ZYZBEU3UXPYFY54",
+      "entityName": "HSBC BANK PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-04-01",
+      "nextRenewalDate": "2027-04-30",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "RR3QWICWWIPCS8A4S074",
+      "entityName": "NATWEST MARKETS PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-09-10",
+      "nextRenewalDate": "2026-10-27",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "7LTWFZYICNSX8D621K86",
+      "entityName": "DEUTSCHE BANK AKTIENGESELLSCHAFT",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-04-07",
+      "nextRenewalDate": "2027-06-02",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "851WYGNLUQLFZBSYGB56",
+      "entityName": "COMMERZBANK Aktiengesellschaft",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-02-24",
+      "nextRenewalDate": "2027-04-24",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "R0MUWSFPU8MPRO8K5P83",
+      "entityName": "BNP PARIBAS",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-12-30",
+      "lastUpdateDate": "2026-01-26",
+      "nextRenewalDate": "2027-02-06",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "1VUV7VQFKUOQSJ21A208",
+      "entityName": "CREDIT AGRICOLE CORPORATE AND INVESTMENT BANK",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-05",
+      "lastUpdateDate": "2025-08-28",
+      "nextRenewalDate": "2026-09-18",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "213800O66553ESU7RD35",
+      "entityName": "SOCIETE GENERALE",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2022-03-10",
+      "lastUpdateDate": "2026-01-09",
+      "nextRenewalDate": "2027-03-10",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "KX1WK48MPD4Y2NCUIZ63",
+      "entityName": "NATIXIS",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-11-10",
+      "nextRenewalDate": "2026-12-12",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "BFM8T61CT2L1QCEMIK50",
+      "entityName": "UBS AG",
+      "jurisdiction": "CH",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-12-29",
+      "nextRenewalDate": "2027-01-12",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "ANGGYXNX0JLX3X63JN86",
+      "entityName": "CREDIT SUISSE AG",
+      "jurisdiction": "CH",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2024-06-03",
+      "nextRenewalDate": "2025-05-23",
+      "managingLOU": "5493001KJTIIGC8Y1R12",
+      "successorLei": "BFM8T61CT2L1QCEMIK50"
+    },
+    {
+      "lei": "165GRDQ39W63PHVONY02",
+      "entityName": "ZÜRCHER KANTONALBANK",
+      "jurisdiction": "CH",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-05-05",
+      "nextRenewalDate": "2027-06-22",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "3TK20IVIUJ8J3ZU0QE75",
+      "entityName": "ING BANK N.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-10-07",
+      "nextRenewalDate": "2026-11-30",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "DG3RU1DBUFHT4ZF9WN62",
+      "entityName": "Coöperatieve Rabobank U.A.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-10-22",
+      "nextRenewalDate": "2026-11-20",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "BFXS5XCH7N0Y05NIXW11",
+      "entityName": "ABN AMRO Bank N.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-07-23",
+      "nextRenewalDate": "2027-07-23",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "5493006QMFDDMYWIAM13",
+      "entityName": "BANCO SANTANDER S.A.",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-12-19",
+      "lastUpdateDate": "2026-04-23",
+      "nextRenewalDate": "2027-06-09",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "K8MS7FD7N5Z2WQ51AZ71",
+      "entityName": "BANCO BILBAO VIZCAYA ARGENTARIA SOCIEDAD ANONIMA",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-07-28",
+      "nextRenewalDate": "2027-09-09",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "7CUNS533WID6K7DGFI87",
+      "entityName": "CAIXABANK SA",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-06-02",
+      "nextRenewalDate": "2027-04-01",
+      "managingLOU": "959800R2X69K6Y6MX775"
+    },
+    {
+      "lei": "724500ZM62VN7JH6K383",
+      "entityName": "Intesa Sanpaolo S.p.A.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2022-03-16",
+      "lastUpdateDate": "2026-03-26",
+      "nextRenewalDate": "2027-03-25",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "549300TRUWO2CD2G5692",
+      "entityName": "UNICREDIT, SOCIETA' PER AZIONI",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-12-04",
+      "lastUpdateDate": "2025-10-14",
+      "nextRenewalDate": "2026-09-12",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "J4CP7MHCXR8DAQMKIL78",
+      "entityName": "BANCA MONTE DEI PASCHI DI SIENA S.P.A.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-08-01",
+      "nextRenewalDate": "2026-09-29",
+      "managingLOU": "815600EAD78C57FCE690"
+    },
+    {
+      "lei": "529900ODI3047E2LIV03",
+      "entityName": "Nordea Bank Abp",
+      "jurisdiction": "FI",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2017-12-29",
+      "lastUpdateDate": "2025-10-03",
+      "nextRenewalDate": "2026-11-02",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "F3JS33DEI6XQ4ZBPTN86",
+      "entityName": "Skandinaviska Enskilda Banken AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-05-18",
+      "nextRenewalDate": "2027-07-11",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "NHBDILHZTYCNBV5UYZ31",
+      "entityName": "Svenska Handelsbanken AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-07-30",
+      "nextRenewalDate": "2026-09-24",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "M312WZV08Y7LYUC71685",
+      "entityName": "Swedbank AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-03-13",
+      "nextRenewalDate": "2027-04-17",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "MAES062Z21O4RZ2U7M96",
+      "entityName": "DANSKE BANK A/S",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-01-27",
+      "nextRenewalDate": "2027-02-09",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "549300GKFG0RYRRQ1414",
+      "entityName": "DNB BANK ASA",
+      "jurisdiction": "NO",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-12-24",
+      "lastUpdateDate": "2026-07-01",
+      "nextRenewalDate": "2027-08-27",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "PQOH26KWDF7CG10L6792",
+      "entityName": "ERSTE GROUP BANK AG",
+      "jurisdiction": "AT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-08-07",
+      "nextRenewalDate": "2026-10-03",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "9ZHRYM6F437SQJ6OUG95",
+      "entityName": "Raiffeisen Bank International AG",
+      "jurisdiction": "AT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-01-30",
+      "nextRenewalDate": "2027-03-17",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "724500JED12U9D83AR79",
+      "entityName": "KBC Bank NV Nederland",
+      "jurisdiction": "BE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-02-06",
+      "lastUpdateDate": "2026-06-27",
+      "nextRenewalDate": "2027-06-27",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "213800OOT97XZGKQPY40",
+      "entityName": "BANK OF IRELAND (UK) PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-10-25",
+      "lastUpdateDate": "2025-09-25",
+      "nextRenewalDate": "2026-10-25",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "3U8WV1YX2VMUHH7Z1Q21",
+      "entityName": "ALLIED IRISH BANKS PUBLIC LIMITED COMPANY",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-12-08",
+      "lastUpdateDate": "2026-06-23",
+      "nextRenewalDate": "2026-12-06",
+      "managingLOU": "635400DZBUIMTBCXGA12"
+    },
+    {
+      "lei": "P4GTT6GF1W40CVIMFR43",
+      "entityName": "POWSZECHNA KASA OSZCZĘDNOŚCI BANK POLSKI SPÓŁKA AKCYJNA",
+      "jurisdiction": "PL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2015-07-13",
+      "lastUpdateDate": "2026-06-25",
+      "nextRenewalDate": "2027-08-02",
+      "managingLOU": "259400L3KBYEVNHEJF55"
+    },
+    {
+      "lei": "DGQCSV2PHVF7I2743539",
+      "entityName": "Nomura International PLC",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-06-19",
+      "nextRenewalDate": "2026-10-19",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "724500ZSA7ZOZHUXBS53",
+      "entityName": "Mizuho Bank Europe N.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-12-17",
+      "lastUpdateDate": "2025-12-18",
+      "nextRenewalDate": "2026-12-18",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "724500Q03K04L0479N30",
+      "entityName": "MUFG Bank (Europe) N.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-12-17",
+      "lastUpdateDate": "2025-12-18",
+      "nextRenewalDate": "2026-12-18",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "549300394G8QGTJCX884",
+      "entityName": "SUMITOMO MITSUI BANKING CORPORATION MALAYSIA BERHAD",
+      "jurisdiction": "MY",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2016-11-10",
+      "lastUpdateDate": "2025-07-16",
+      "nextRenewalDate": "2023-09-29",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "RILFO74KP1CM8P6PCT96",
+      "entityName": "STANDARD CHARTERED BANK",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-09-01",
+      "nextRenewalDate": "2026-10-27",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "PT3QB789TSUIDF371261",
+      "entityName": "THE TORONTO-DOMINION BANK",
+      "jurisdiction": "CA",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-12-16",
+      "nextRenewalDate": "2027-01-24",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "ES7IP3U3RHIGC71XBU11",
+      "entityName": "Royal Bank of Canada",
+      "jurisdiction": "CA",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-11-18",
+      "nextRenewalDate": "2027-01-09",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "JHE42UYNWWTJB8YTTU19",
+      "entityName": "AUSTRALIA AND NEW ZEALAND BANKING GROUP LIMITED",
+      "jurisdiction": "AU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-05-22",
+      "nextRenewalDate": "2027-05-25",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "MSFSBD3QN1GSN7Q6C537",
+      "entityName": "COMMONWEALTH BANK OF AUSTRALIA",
+      "jurisdiction": "AU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2026-06-02",
+      "nextRenewalDate": "2027-07-07",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "549300MPRNPO6FWNKN78",
+      "entityName": "MACQUARIE BANK LIMITED",
+      "jurisdiction": "AU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2022-01-31",
+      "lastUpdateDate": "2026-05-18",
+      "nextRenewalDate": "2027-06-14",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "ATUEL7OJR5057F2PV266",
+      "entityName": "DBS BANK LTD.",
+      "jurisdiction": "SG",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-27",
+      "lastUpdateDate": "2026-04-24",
+      "nextRenewalDate": "2026-12-21",
+      "managingLOU": "52990034RLKT0WSOAM90"
+    },
+    {
+      "lei": "5493007O3QFXCPOGWK22",
+      "entityName": "OVERSEA-CHINESE BANKING CORPORATION LIMITED",
+      "jurisdiction": "SG",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-04-08",
+      "lastUpdateDate": "2026-04-20",
+      "nextRenewalDate": "2027-02-10",
+      "managingLOU": "52990034RLKT0WSOAM90"
+    },
+    {
+      "lei": "F226TOH6YD6XJB17KS62",
+      "entityName": "LCH LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-09-03",
+      "nextRenewalDate": "2026-09-12",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "R1IO4YJ0O79SMWVCHB58",
+      "entityName": "BANQUE CENTRALE DE COMPENSATION",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-08-22",
+      "lastUpdateDate": "2026-02-23",
+      "nextRenewalDate": "2027-04-22",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "529900LN3S50JPU47S06",
+      "entityName": "EUREX Clearing Aktiengesellschaft",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2013-09-05",
+      "lastUpdateDate": "2026-06-23",
+      "nextRenewalDate": "2027-08-15",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "5R6J7JCQRIPQR1EEP713",
+      "entityName": "ICE CLEAR EUROPE LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-11-11",
+      "nextRenewalDate": "2026-11-15",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "8156006407E264D2C725",
+      "entityName": "CASSA DI COMPENSAZIONE E GARANZIA S.P.A.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-01-16",
+      "lastUpdateDate": "2025-12-24",
+      "nextRenewalDate": "2027-01-16",
+      "managingLOU": "815600EAD78C57FCE690"
+    },
+    {
+      "lei": "549300OZ46BRLZ8Y6F65",
+      "entityName": "EUROCLEAR BANK",
+      "jurisdiction": "BE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-01-07",
+      "lastUpdateDate": "2026-05-11",
+      "nextRenewalDate": "2027-06-29",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "549300OL514RA0SXJJ44",
+      "entityName": "CLEARSTREAM BANKING S.A.",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2015-01-09",
+      "lastUpdateDate": "2026-04-22",
+      "nextRenewalDate": "2027-06-07",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "549300QXP30FD81KVQ43",
+      "entityName": "BLACKROCK INVESTMENT MANAGEMENT (UK) LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-02-22",
+      "lastUpdateDate": "2025-10-03",
+      "nextRenewalDate": "2026-11-17",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "DQ2T0MMUTO0IPF9G9Z35",
+      "entityName": "AMUNDI ASSET MANAGEMENT",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-05",
+      "lastUpdateDate": "2025-10-14",
+      "nextRenewalDate": "2026-11-17",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "2138004PM63R6524XR26",
+      "entityName": "SCHRODER INVESTMENT MANAGEMENT LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2015-01-09",
+      "lastUpdateDate": "2025-12-29",
+      "nextRenewalDate": "2027-01-09",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "2138005NNERSR7ODIC73",
+      "entityName": "LEGAL & GENERAL INVESTMENT MANAGEMENT LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-01-02",
+      "lastUpdateDate": "2025-11-05",
+      "nextRenewalDate": "2027-01-03",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "549300GHCCJWKY72R127",
+      "entityName": "PIMCO EUROPE LTD",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2017-04-11",
+      "lastUpdateDate": "2026-05-21",
+      "nextRenewalDate": "2027-06-07",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "213800NR44FZFC9RPO56",
+      "entityName": "INSIGHT INVESTMENT MANAGEMENT (GLOBAL) LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2014-01-27",
+      "lastUpdateDate": "2026-01-21",
+      "nextRenewalDate": "2027-01-29",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "WJHQ8HJCNBR1V6EQ1R27",
+      "entityName": "AVIVA INVESTORS GLOBAL SERVICES LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2012-06-06",
+      "lastUpdateDate": "2025-11-03",
+      "nextRenewalDate": "2027-01-02",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "2138001WXZQOPMPA3D50",
+      "entityName": "TRADEWEB EUROPE LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2016-01-14",
+      "lastUpdateDate": "2025-12-01",
+      "nextRenewalDate": "2027-01-20",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "549300ROEJDDAXM6LU05",
+      "entityName": "Bloomberg Trading Facility Limited",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2015-05-02",
+      "lastUpdateDate": "2026-01-05",
+      "nextRenewalDate": "2027-01-25",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "254900ZVFQQ14ZJMPP45",
+      "entityName": "PSRT 2026-1 LLC",
+      "jurisdiction": "US-DE",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-07-17",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2027-07-17",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "6488T70V0O9W2T3P0H24",
+      "entityName": "NOVOPAN TRÆINDUSTRI A/S SOCIALE FOND",
+      "jurisdiction": "DK",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-07-10",
+      "lastUpdateDate": "2026-07-10",
+      "nextRenewalDate": "2027-07-09",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "6488CCB01UO2C039A387",
+      "entityName": "Dorte Boe",
+      "jurisdiction": "DK",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-07-02",
+      "lastUpdateDate": "2026-07-08",
+      "nextRenewalDate": "2027-07-01",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "7245007TUD2NM9684803",
+      "entityName": "LHG Infra",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-25",
+      "lastUpdateDate": "2026-07-20",
+      "nextRenewalDate": "2027-06-25",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "724500FA3I0VSF7MCM79",
+      "entityName": "Cark bouw & Slim",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-24",
+      "lastUpdateDate": "2026-07-22",
+      "nextRenewalDate": "2027-06-24",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "724500ZLK3POSUABOV10",
+      "entityName": "JSRO Service",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-23",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2027-06-23",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "7245009APASJPJUB9K78",
+      "entityName": "OA Delta Construct",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-19",
+      "lastUpdateDate": "2026-07-01",
+      "nextRenewalDate": "2027-06-19",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "72450025HSVPVWJ0HC95",
+      "entityName": "PLANQ Dev B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-17",
+      "lastUpdateDate": "2026-07-13",
+      "nextRenewalDate": "2027-06-17",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "9845006A7A5583CF9B64",
+      "entityName": "ΤΑΜΕΙΟ ΠΡΟΝΟΙΑΣ ΕΡΓΑΤΩΝ ΔΗΜΟΥ ΑΓΛΑΝΤΖΙΑΣ",
+      "jurisdiction": "CY",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-15",
+      "lastUpdateDate": "2026-06-15",
+      "nextRenewalDate": "2027-06-15",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "7245002ST37DR0U1CQ33",
+      "entityName": "V.O.F. De Gouden Leeuw Vessem",
+      "jurisdiction": "NL",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-15",
+      "lastUpdateDate": "2026-07-01",
+      "nextRenewalDate": "2027-06-15",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "743700ZFOFB15B3RY656",
+      "entityName": "Mikkelin Päällystöyhdistys ry",
+      "jurisdiction": "FI",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-11",
+      "lastUpdateDate": "2026-07-03",
+      "nextRenewalDate": "2026-07-03",
+      "managingLOU": "743700OO8O2N3TQKJC81"
+    },
+    {
+      "lei": "743700DC7BTYE4OJI892",
+      "entityName": "Keskustan Leppälän seudun paikallisyhdistys ry",
+      "jurisdiction": "FI",
+      "registrationStatus": "RETIRED",
+      "initialRegistrationDate": "2026-06-09",
+      "lastUpdateDate": "2026-07-06",
+      "nextRenewalDate": "2026-07-06",
+      "managingLOU": "743700OO8O2N3TQKJC81"
+    },
+    {
+      "lei": "636700VVHS50XM79JI98",
+      "entityName": "Asterix Luxembourg S.à r.l.",
+      "jurisdiction": "LU",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-07-22",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2027-07-22",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "724500X08RRGKESORG83",
+      "entityName": "Van Aaken Installatiemanagement B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-07-06",
+      "lastUpdateDate": "2026-07-06",
+      "nextRenewalDate": "2027-07-06",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "9845009C02EDA0E1A502",
+      "entityName": "The Trustee for Amazing Events Trust",
+      "jurisdiction": "AU",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-06-19",
+      "lastUpdateDate": "2026-06-23",
+      "nextRenewalDate": "2027-06-19",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "724500QT3DS8SW64NL88",
+      "entityName": "Aigentify B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-06-18",
+      "lastUpdateDate": "2026-06-18",
+      "nextRenewalDate": "2027-06-18",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "335800KE4KFUVFC5G572",
+      "entityName": "MASTER FILES",
+      "jurisdiction": "IN",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-05-30",
+      "lastUpdateDate": "2026-05-30",
+      "nextRenewalDate": "2027-05-30",
+      "managingLOU": "335800FVH4MOKZS9VH40"
+    },
+    {
+      "lei": "724500XZQ3VEAPS68J59",
+      "entityName": "Noviomagus Batavorum Beheer B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-05-04",
+      "lastUpdateDate": "2026-05-04",
+      "nextRenewalDate": "2027-05-04",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "648841XW70QZ1Q4Z2Y12",
+      "entityName": "SARL HUNG PHAT",
+      "jurisdiction": "FR",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-05-04",
+      "lastUpdateDate": "2026-05-04",
+      "nextRenewalDate": "2027-05-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "7245001ACP5D6IFWXP40",
+      "entityName": "Value Tech Everyday B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ANNULLED",
+      "initialRegistrationDate": "2026-04-20",
+      "lastUpdateDate": "2026-04-20",
+      "nextRenewalDate": "2027-04-20",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "213800FOVKTI49V1A607",
+      "entityName": "ROOTS HORIZON LABS LIMITED",
+      "jurisdiction": "CY",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-07-28",
+      "lastUpdateDate": "2026-07-29",
+      "nextRenewalDate": "2027-07-28",
+      "managingLOU": "213800WAVVOPS85N2205",
+      "successorLei": "2549008N2H3GR3W41128"
+    },
+    {
+      "lei": "648894II5TOR342I0G51",
+      "entityName": "BHAWANESH JANGID",
+      "jurisdiction": "IN",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-07-06",
+      "lastUpdateDate": "2026-07-24",
+      "nextRenewalDate": "2027-07-06",
+      "managingLOU": "485100001PLJJ09NZT59",
+      "successorLei": "6488NF962WXK07G44B42"
+    },
+    {
+      "lei": "254900U44LBT9ZMXK779",
+      "entityName": "FIS FOUNDATION",
+      "jurisdiction": "DE",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-06-23",
+      "lastUpdateDate": "2026-06-23",
+      "nextRenewalDate": "2027-06-23",
+      "managingLOU": "5493001KJTIIGC8Y1R12",
+      "successorLei": "529900OS6KHYMWEOOB71"
+    },
+    {
+      "lei": "7245002ZU8R2R5FY5374",
+      "entityName": "My Kitchen 010",
+      "jurisdiction": "NL",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-06-22",
+      "lastUpdateDate": "2026-07-14",
+      "nextRenewalDate": "2027-06-22",
+      "managingLOU": "724500A93Z8V1MJK5349",
+      "successorLei": "6488AY43MANQ2974P498"
+    },
+    {
+      "lei": "894500HM2AVAS3BSZT08",
+      "entityName": "ALC COLD CHAIN LOGISTICS",
+      "jurisdiction": "IN",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-06-18",
+      "lastUpdateDate": "2026-07-15",
+      "nextRenewalDate": "2027-06-18",
+      "managingLOU": "529900F6BNUR3RJ2WH29",
+      "successorLei": "6488DONR062GZ0696O19"
+    },
+    {
+      "lei": "391200J2JNB1QE8PMY79",
+      "entityName": "MR RE Co-Invest 2 GP SCSp",
+      "jurisdiction": "LU",
+      "registrationStatus": "DUPLICATE",
+      "initialRegistrationDate": "2026-06-12",
+      "lastUpdateDate": "2026-07-15",
+      "nextRenewalDate": "2027-06-12",
+      "managingLOU": "39120001KULK7200U106",
+      "successorLei": "391200CSUKW3NIVA4W91"
+    },
+    {
+      "lei": "39120033NWTKWJCKTA45",
+      "entityName": "4K Holding GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "PENDING_TRANSFER",
+      "initialRegistrationDate": "2026-06-02",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-06-02",
+      "managingLOU": "39120001KULK7200U106"
+    },
+    {
+      "lei": "984500902C78104C2E90",
+      "entityName": "HOLIDAY RESORT",
+      "jurisdiction": "IN",
+      "registrationStatus": "PENDING_TRANSFER",
+      "initialRegistrationDate": "2026-05-25",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2027-05-25",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500638Q92E826F330",
+      "entityName": "HOTEL APNO RAJASTHAN",
+      "jurisdiction": "IN",
+      "registrationStatus": "PENDING_TRANSFER",
+      "initialRegistrationDate": "2026-05-24",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2027-05-24",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "8945009B1FBD8KY6Q144",
+      "entityName": "SBS Capital UG (haftungsbeschraenkt)",
+      "jurisdiction": "DE",
+      "registrationStatus": "PENDING_TRANSFER",
+      "initialRegistrationDate": "2026-04-20",
+      "lastUpdateDate": "2026-07-29",
+      "nextRenewalDate": "2027-04-20",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "5299006TXCT96WAM4659",
+      "entityName": "Add New Energy Investment Holdings Group Limited",
+      "jurisdiction": "KY",
+      "registrationStatus": "PENDING_ARCHIVAL",
+      "initialRegistrationDate": "2026-02-27",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-02-27",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "391200DIOQ0EQNDZTE96",
+      "entityName": "UBS Orizzonte 2032 con Garanzia",
+      "jurisdiction": "LU",
+      "registrationStatus": "PENDING_ARCHIVAL",
+      "initialRegistrationDate": "2026-02-19",
+      "lastUpdateDate": "2026-07-28",
+      "nextRenewalDate": "2027-02-19",
+      "managingLOU": "39120001KULK7200U106"
+    },
+    {
+      "lei": "213800YY41UU7X9I2187",
+      "entityName": "APOLIS – ALTERNATIVES SELECT ΟΕΕ",
+      "jurisdiction": "GR",
+      "registrationStatus": "PENDING_ARCHIVAL",
+      "initialRegistrationDate": "2025-12-24",
+      "lastUpdateDate": "2026-06-29",
+      "nextRenewalDate": "2026-12-24",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "9845001F5FZE8BAAA073",
+      "entityName": "JG REALTY UK LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2026-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500ECFEEC75AF0682",
+      "entityName": "The M & B Liddicoat Discretionary Trust 2025",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2026-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "254900O4Q6ZQK9ULRE72",
+      "entityName": "HarbourVest TBW L.P.",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "254900YJ6DKMT051HQ74",
+      "entityName": "EOV ALDERSGATE LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "9845001596F4N698A007",
+      "entityName": "THE ART OF COMPOUNDING LTD",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500909E54DFA6CB78",
+      "entityName": "BERYL GUITARS LTD",
+      "jurisdiction": "GB",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "98450010A6A3F4T2CA50",
+      "entityName": "Grundstücksgemeinschaft Straub und Weise eGbR",
+      "jurisdiction": "DE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500CEBDQA86FEAC11",
+      "entityName": "030Guards Sicherheitsdienst UG (haftungsbeschränkt)",
+      "jurisdiction": "DE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "529900XML27YZITZPL28",
+      "entityName": "HL Invest neustädter, Gießen GmbH & Co. KG",
+      "jurisdiction": "DE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "894500STS4MALAJAMI25",
+      "entityName": "Rosa Schuch Finanzdienstleistungs- und Versicherungsmakler GmbH & Co KG",
+      "jurisdiction": "DE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "9845009J3665R2EE9F58",
+      "entityName": "Avenir Immobilien & Finanz GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500E8F94C8ABE9098",
+      "entityName": "EXCELSIOR CAPITAL & CONSEIL",
+      "jurisdiction": "FR",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-02",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-02",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "969500R6TP9XCIAM0456",
+      "entityName": "PHARMACIE VOLTAIRE",
+      "jurisdiction": "FR",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "969500X9RXCS0JOUF946",
+      "entityName": "NONNIN SARL",
+      "jurisdiction": "FR",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "9695005Y9Z0XD09PJR51",
+      "entityName": "WINCH",
+      "jurisdiction": "FR",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "9695000M5OK2R5Z0TR15",
+      "entityName": "COMBO",
+      "jurisdiction": "FR",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "254900U5HPRR64MQX665",
+      "entityName": "PEGASUS JET LEASING 14 LIMITED",
+      "jurisdiction": "IE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "635400A3NCEJCQFUTL66",
+      "entityName": "TRAYDACCESS DESIGNATED ACTIVITY COMPANY",
+      "jurisdiction": "IE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2026-07-31",
+      "managingLOU": "635400DZBUIMTBCXGA12"
+    },
+    {
+      "lei": "894500VLPJZJW7OYA237",
+      "entityName": "CINERICIUS UNLIMITED COMPANY",
+      "jurisdiction": "IE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-29",
+      "lastUpdateDate": "2026-07-29",
+      "nextRenewalDate": "2026-07-29",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "2549007CURXNKCOQ9R48",
+      "entityName": "KDP Beverage Enterprises Limited",
+      "jurisdiction": "IE",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-22",
+      "lastUpdateDate": "2026-07-22",
+      "nextRenewalDate": "2026-07-22",
+      "managingLOU": "5493001KJTIIGC8Y1R12"
+    },
+    {
+      "lei": "984500J504361CDF6C10",
+      "entityName": "Frontier Renewables European Fund I SCSp",
+      "jurisdiction": "LU",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "213800DEDHOJEF4Q5329",
+      "entityName": "OBBLIGAZIONARIO EURO 10/2030",
+      "jurisdiction": "LU",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "2138005132QVCLZL7Y76",
+      "entityName": "OBBLIGAZIONARIO EURO 12/2030",
+      "jurisdiction": "LU",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "213800WAVVOPS85N2205"
+    },
+    {
+      "lei": "894500UNU36NGB3IBU66",
+      "entityName": "GoldenRace",
+      "jurisdiction": "LU",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-30",
+      "lastUpdateDate": "2026-07-30",
+      "nextRenewalDate": "2026-07-30",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "984500D5CF15DF46C038",
+      "entityName": "Zuaso B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "724500SOPOTBNVY33D09",
+      "entityName": "Verwelius Huizen Maatschappij (Vehumij) B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2026-08-01",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "724500NZXZ6KG9479746",
+      "entityName": "Stichting Juridisch Eigenaar Mahler Delta",
+      "jurisdiction": "NL",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2026-07-31",
+      "managingLOU": "724500A93Z8V1MJK5349"
+    },
+    {
+      "lei": "9845005EE3AE596EF807",
+      "entityName": "Drift Apps B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "LAPSED",
+      "initialRegistrationDate": "2025-07-31",
+      "lastUpdateDate": "2025-07-31",
+      "nextRenewalDate": "2026-07-31",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500E5C85BSB478D36",
+      "entityName": "SOULABUNDANCE LTD",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845003CEF9B2C711460",
+      "entityName": "PAWMILL DOG PARK LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845003BFFF98C7PE960",
+      "entityName": "BORSON LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "64880071YOJHWPAPXH16",
+      "entityName": "The Trust of JOHN BAMBOROUGH GIBSON (Deceased)",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "984500094F4B1J3F9106",
+      "entityName": "GENERAL OSTEOPATHIC COUNCIL",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "648800LXRRMFDCWOLD92",
+      "entityName": "INTERCORP GLOBAL LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "64880016UKDCA1LN7C64",
+      "entityName": "INTERCORP PROP LIMITED",
+      "jurisdiction": "GB",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "984500C01CKEFU408T88",
+      "entityName": "Gollner GmbH & Co. KG",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "529900ICVXWEPNADS105",
+      "entityName": "Brand Family Holding GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "9845007X900FF1Q4SA66",
+      "entityName": "Ralf Hetkamp Verwaltung GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500K2DFX3DA640617",
+      "entityName": "FR Investment GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845005451BQ52645E93",
+      "entityName": "Heinemann Capital GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "529900ZF2VGS0U2OFJ64",
+      "entityName": "Lampe Gastronomie e.K.",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "9845004948F9CI854J98",
+      "entityName": "TB Immobilien Eins GmbH",
+      "jurisdiction": "DE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "98450036D3994AA91162",
+      "entityName": "CTRE THALASSO ESTHETIQUE GD DELTA",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845005QNEC682E98298",
+      "entityName": "BALLYCHANCE",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845007B3RC4E04EAD66",
+      "entityName": "LINCOLN UPLIFT",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "648800DOCDSYTNL99N36",
+      "entityName": "AXIOME",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "969500OKWZQM192G0Y04",
+      "entityName": "SEBASTIEN MINNE CONSULTING",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-02",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2027-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "9695002D2J9PBLTIZF92",
+      "entityName": "SELARL DU MEDECIN MARILYN WYART",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-02",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2027-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "969500YWCPIBBUYMJ735",
+      "entityName": "FFS",
+      "jurisdiction": "FR",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-02",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2027-08-02",
+      "managingLOU": "969500Q2MA9VBQ8BG884"
+    },
+    {
+      "lei": "648800IVXJIWUXMIRF88",
+      "entityName": "JEBIMA B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "648800JJ0MO8WX5Z9Z69",
+      "entityName": "W. Gaastra Holding B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "98450054E614DEFF3667",
+      "entityName": "T.J. Stelwagen Beheer B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-02",
+      "lastUpdateDate": "2026-08-02",
+      "nextRenewalDate": "2027-08-02",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500UFBF60384E6R22",
+      "entityName": "MG Holding B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2027-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "6488001QVHZ3KVWSBI24",
+      "entityName": "Alternative Funds B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2027-08-01",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "648800QTQBYP2R0HAT51",
+      "entityName": "Multnomah B.V.",
+      "jurisdiction": "NL",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2027-08-01",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "984500FLAB71FBBAD850",
+      "entityName": "GEOENVIRONMENTAL LIMITED",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845009AF76Q9641EA42",
+      "entityName": "UNIQUEN LIMITED",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-01",
+      "lastUpdateDate": "2026-08-01",
+      "nextRenewalDate": "2027-08-01",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500D5393B78T1C803",
+      "entityName": "NT EUROPE SELECTION P-SERIES EQUITY INDEX FUND",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "8945007PRIX7NOTBW893",
+      "entityName": "GIGASURE SERVICES EUROPE LIMITED",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "8945007PLZDG0PHG8O60",
+      "entityName": "ALTITUDE III AIRCRAFT ONE DESIGNATED ACTIVITY COMPANY",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "8945007PGFTODQ5KL416",
+      "entityName": "ALTITUDE III AIRCRAFT TWO DESIGNATED ACTIVITY COMPANY",
+      "jurisdiction": "IE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "5299003OAIRRPSAHJU68",
+      "entityName": "Alétheia Holding SARL",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "984500D4EFD03B375J59",
+      "entityName": "ROYAL WINGS S.A.",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "63670072UQTODG1D8I44",
+      "entityName": "Cross Ocean Senior Credit Fund (Alpha) Principal SCSp",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "6367003A3YORG5VZE320",
+      "entityName": "Infinity Five Holding S.à r.l.",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "984500PF6E472CD42F71",
+      "entityName": "BOLEYN Sàrl",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "8945005R8TFLA7OM7S27",
+      "entityName": "Golborne Luxembourg Investor I S.C.Sp",
+      "jurisdiction": "LU",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-07-31",
+      "lastUpdateDate": "2026-07-31",
+      "nextRenewalDate": "2027-07-31",
+      "managingLOU": "529900F6BNUR3RJ2WH29"
+    },
+    {
+      "lei": "5299005AUD8LR2S68A69",
+      "entityName": "CUTINI MARIO S.R.L.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "5299001T6CHDK0VWWA51",
+      "entityName": "SAGITECH SRL",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900JJI97B39WBVP78",
+      "entityName": "PRIMA SOCIETA' DI CONSULENZA FINANZIARIA S.R.L.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900CYR1EUGLDU1N51",
+      "entityName": "SAJMA S.R.L.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900TBQ7JFPVRJY638",
+      "entityName": "GERRY GIARDINO DI BORGA PIERMARIO",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900X06W0U1DW88P91",
+      "entityName": "BASA S.R.L.",
+      "jurisdiction": "IT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900UEPZ6N3EZWJM39",
+      "entityName": "SANZ ALVAREZ GESTION SL",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "52990040RQW678TU4U12",
+      "entityName": "Randriamandriato Holdings SL",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900EJ0G0F7QJTSR98",
+      "entityName": "VOWELSTUDIO SL",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900WMSLUK7HAENQ48",
+      "entityName": "MENORCA VIP EXPERIENCE SOCIEDAD LIMITADA",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900O8HEBOI2XWW248",
+      "entityName": "AVANCE CUANTICO, SOCIEDAD LIMITADA",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "529900I473T8WY7S5J64",
+      "entityName": "CONSULTORES CINCA ENERGIA SOCIEDAD LIMITADA",
+      "jurisdiction": "ES",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "5299000J2N45DDNE4Y28"
+    },
+    {
+      "lei": "984500FB2EB108EE1X81",
+      "entityName": "MW Commerciellt 1 AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500G892FC3ACFEF04",
+      "entityName": "Karjalainen Investments AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500F60F9F8BJ1BC71",
+      "entityName": "Tucon AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "984500AADDCFDOICAC59",
+      "entityName": "Louise Hagen AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "6488000RLFH7NIX6RJ39",
+      "entityName": "Meditolia Life Sciences AB",
+      "jurisdiction": "SE",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "9845004B14BB2AC78718",
+      "entityName": "BlackWood Ventures ApS",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "9845005F8E1149B60E82",
+      "entityName": "J. Goldberg Holding ApS",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "98450048BAA7CF8A9C43",
+      "entityName": "Ejendomsselskabet Rømersvej 3 ApS",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "98450050000ANYDEFD48",
+      "entityName": "Rocky Games ApS",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
+    },
+    {
+      "lei": "648800RQMEYLACAHSV50",
+      "entityName": "BlackWood Ventures Fund II EuVECA K/S",
+      "jurisdiction": "DK",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "648800DNMXEDCYQI2995",
+      "entityName": "Apertum Holdings Oy",
+      "jurisdiction": "FI",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "6488006SR4Q4UONZ6H93",
+      "entityName": "Lattiapalvelu K.Palosaari Oy",
+      "jurisdiction": "FI",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "485100001PLJJ09NZT59"
+    },
+    {
+      "lei": "636700SML40L2X7OHO19",
+      "entityName": "Bojen Capital Oy",
+      "jurisdiction": "FI",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "636700NVZC7M3N4H8387",
+      "entityName": "Sijoitusrahasto Alexandria Korkosalkku",
+      "jurisdiction": "FI",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "549300O897ZC5H7CY412"
+    },
+    {
+      "lei": "984500I2F6DE6UF37229",
+      "entityName": "Baldauf GmbH",
+      "jurisdiction": "AT",
+      "registrationStatus": "ISSUED",
+      "initialRegistrationDate": "2026-08-03",
+      "lastUpdateDate": "2026-08-03",
+      "nextRenewalDate": "2027-08-03",
+      "managingLOU": "529900T8BM49AURSDO55"
     }
   ]
 }
