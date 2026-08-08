@@ -96,6 +96,52 @@ Upload a trade CSV and ask the agent to validate it. Here
 
 ![Copilot Studio Preview pane with a trade CSV attached and the prompt 'use attached deals data and validate'](screen/emir2.jpg)
 
+### A full run, end to end
+
+The three screenshots below are one continuous run over
+[trade_data_200_v2.csv](trade_data_200_v2.csv) — attach the CSV, ask for
+*"validate all trades in file and generate excel"*, and the agent works the same
+sequence the Python engine does: read the rules and reference data, evaluate all
+50 rules per trade, then write the four-sheet workbook.
+
+**1 — The agent picks up the file and self-corrects against the real schemas.**
+Worth watching for what it gets wrong first: it assumes `rule_id` and `status`
+field names, then reads the actual files and finds `ruleId` and
+`registrationStatus`; it writes a case-insensitive UTI regex, then tightens it to
+uppercase-only per the rule definition. When its first pass marks all 200 trades
+`FAIL`, it treats that as suspicious rather than as a result.
+
+![Copilot Studio preview: the EMIR agent loads trade_data_200_v2.csv, reads the rules and GLEIF/DSB reference files, and corrects its field-name and UTI-regex assumptions](screen/e1.jpg)
+
+**2 — Run summary.** The remaining corrections are the two documented quirks of
+this data: the mock LEIs are test values that fail mod-97, so the checksum comes
+out of `R003`/`R004`; and `R033`/`R036`/`R039`/`R040` reference columns the CSV
+schema doesn't have, which is a schema-level gap rather than a per-trade error,
+so they emit `WARNING` instead of `ERROR`.
+
+![Copilot Studio preview: run summary for trade_data_200_v2.csv showing 200 trades, 92 FAIL, 108 WARNING-only, 0 PASS, 10,000 checks, 128 failures and 907 warnings](screen/e2.jpg)
+
+**3 — Top failing rules and the workbook.** `R032` dominates at 45 failures
+(UPI taxonomy inconsistent with `ProductType`), then `R038` timeliness at 10.
+`test_results.xlsx` comes back as a download with the same four sheets the CLI
+writes.
+
+![Copilot Studio preview: top failing rules table led by R032 with 45 failures, the four workbook sheets, and test_results.xlsx offered as a download](screen/e3.jpg)
+
+> [!IMPORTANT]
+> **These counts don't match the Python engine's, and that's the point.** On this
+> same fixture the engine reports 161 `FAIL` and 120 `WARNING` checks with
+> 113 / 200 trades in error ([see the table](#the-four-fixtures)); the agent
+> reports 128 failures, 907 warnings and 0 `PASS` trades. The gap is almost
+> entirely `R033`/`R036`: the agent raises a `WARNING` on *every* trade for the
+> structurally absent `SubmittingEntityLEI` and `DeliverableCurrency` /
+> `SettlementCurrency` columns, which alone puts all 200 trades above `PASS`. An
+> LLM re-deriving the rules from `instructions.txt` makes defensible but
+> different calls than the hardcoded engine — so treat
+> [validate_and_report.py](.claude/skills/emir-validate/scripts/validate_and_report.py)
+> as the reference implementation and the agent as a conversational front end,
+> not a second source of truth.
+
 ---
 
 ## Repository layout
