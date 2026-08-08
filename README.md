@@ -20,7 +20,7 @@ trade repository feed.
 |---|---|
 | **Validation rules** | 50 engine-runnable rules (40 `ERROR`, 10 `WARNING`) across 10 EMIR Refit fields |
 | **ESMA rule reference** | 480 **real** ESMA validation rules extracted from ESMA74-362-2683, covering 202 reportable fields |
-| **Test trades** | 650 rows across 4 CSV fixtures (1 baseline + 3 variations) |
+| **Test trades** | 650 rows across 4 engine-runnable fixtures, plus two ESMA-schema fixtures: 955 rows targeting all 480 rules, and 50 realistic reportable trades |
 | **Reference data** | 200 GLEIF LEI records (194 real, from the GLEIF API) + 7 DSB UPI records |
 | **Engine** | ~500 lines of dependency-light Python (`openpyxl` only) |
 | **Output** | `test_results.xlsx` — Trade Summary, Failures & Warnings, Rule Summary, Audit Trail |
@@ -106,7 +106,11 @@ EMIR/
 │   ├── validation_rules.json        # the 50 rules the engine runs
 │   ├── validation_rules_esma_refit.json   # 480 real ESMA rules (reference/spec)
 │   ├── gleif_lei_reference.json     # 200 LEI records (194 real, from GLEIF)
-│   └── dsb_upi_reference.json       # 7 UPI records
+│   ├── dsb_upi_reference.json       # 7 UPI records
+│   ├── esma_fixture_manifest.json   # per-row provenance for the ESMA fixture
+│   └── trade_50_reportable_manifest.json  # scenario manifest for the 50-trade file
+├── trade_data_esma_refit_all_rules.csv    # 955 rows x 202 ESMA fields, all 480 rules
+├── trade_data_emir_refit_50_reportable.csv  # 50 realistic trades, 173 ESMA fields
 ├── trade_data_200_v2.csv            # 200-row baseline fixture
 ├── trade_data_emir_refit_variation1.csv   # 150 rows, moderate failure density
 ├── trade_data_emir_refit_variation2.csv   # 150 rows, high failure density
@@ -126,6 +130,10 @@ EMIR/
 | [reference_data/validation_rules_esma_refit.json](reference_data/validation_rules_esma_refit.json) | A JSON **array** of 480 **real ESMA** validation rules, extracted from the official workbook. Reference/spec only — [not engine-runnable](#the-real-esma-rule-reference). |
 | [reference_data/gleif_lei_reference.json](reference_data/gleif_lei_reference.json) | LEI-status lookup backing `R023`/`R024`/`R043`/`R044`. |
 | [reference_data/dsb_upi_reference.json](reference_data/dsb_upi_reference.json) | UPI-status lookup backing `R022`/`R042`. |
+| [trade_data_esma_refit_all_rules.csv](trade_data_esma_refit_all_rules.csv) | 955 rows across 202 real ESMA fields, one PASS + one FAIL row per ESMA rule. [Not engine-runnable](#the-esma-all-rules-fixture). |
+| [reference_data/esma_fixture_manifest.json](reference_data/esma_fixture_manifest.json) | Per-row provenance for the fixture above: target rule, expected outcome, mutation applied, coverage honesty label. |
+| [trade_data_emir_refit_50_reportable.csv](trade_data_emir_refit_50_reportable.csv) | 50 realistic EMIR Refit trade reports (173 ESMA fields): 28 clean, 22 carrying a named defect. See [the 50-trade reportable file](#the-50-trade-reportable-file). |
+| [reference_data/trade_50_reportable_manifest.json](reference_data/trade_50_reportable_manifest.json) | Scenario manifest for the 50-trade file: product, action type, UTI, targeted rules, coverage totals. |
 | [trade_data_200_v2.csv](trade_data_200_v2.csv) | Primary fixture: 108 rule-targeted rows + 92 valid baseline rows. |
 | `trade_data_emir_refit_variation{1,2,3}.csv` | 150-row variants at escalating failure density, for regression sweeps. |
 | [expected_results.csv](expected_results.csv) | Expected `TradeID` → `Status`. **Stale** — see [gaps](#known-limitations-and-gaps). |
@@ -440,6 +448,154 @@ windows differ too (`trade_data_200_v2.csv` spans 2026-02 → 2026-08;
 variation3 spans 2026-12 → 2027-08), which shifts what the timeliness and
 LEI-renewal rules see.
 
+### The ESMA all-rules fixture
+
+[trade_data_esma_refit_all_rules.csv](trade_data_esma_refit_all_rules.csv)
+targets **every one of the 480 rules** in
+[the ESMA rule reference](#the-real-esma-rule-reference): **955 rows × 210
+columns** (8 control columns + 202 real ESMA fields).
+
+| | |
+|---|---|
+| Rows | 955 — 475 `PASS`, 475 `FAIL`, 5 `N/A` |
+| Rules targeted | **480 / 480**, every rule with a matched PASS/FAIL pair |
+| Columns | 202 ESMA fields — Table 1 (20), Table 2 (153), Table 3 (29) |
+| Row types | 792 `TRADE`, 158 `MARGIN`, 5 `MESSAGE` |
+| Determinism | regenerating byte-identical output (no seeded randomness in play) |
+
+> [!NOTE]
+> **Why 202 columns and not a smaller subset.** All 480 rules span all 202
+> reportable fields, and every field referenced inside a condition also has
+> rules of its own — so the union of "fields the targeted rules need" *is* the
+> full 202. A trimmed schema and full ESMA-rule coverage are the same thing here.
+
+**Column headers are the real ESMA field numbers and names** — `1.1 Reporting
+timestamp`, `2.42 Execution timestamp`, `3.28 Action type` — so a row maps
+directly onto the reporting standards. The 8 control columns carry the test
+intent:
+
+| Control column | Meaning |
+|---|---|
+| `TestCaseID` | e.g. `EMIR-VR-1011-02-FAIL` |
+| `TargetRuleId` | the ESMA rule this row exercises |
+| `TargetField` | ESMA field number under test, e.g. `1.11` |
+| `ExpectedOutcome` | `PASS`, `FAIL` or `N/A` |
+| `ReportType` | `TRADE` (Tables 1–2), `MARGIN` (Table 3), `MESSAGE` |
+| `Coverage` | how faithfully the row was engineered — see below |
+| `MutationApplied` | what was changed to produce the outcome |
+| `RuleCondition` | the verbatim ESMA condition, inline for readability |
+
+**Baseline design.** There is no single record that satisfies all 480 rules —
+many are mutually exclusive (populating field X *requires* field Y be blank). So
+each row starts from a **minimal valid NEWT report**: every field ESMA marks `M`
+for NEWT is populated with a format-valid value, `C`/`O`/`-` fields left blank.
+The row is then tuned so its target rule is in scope. Consequences worth
+knowing: a `PASS` row passes *its own* target rule, not necessarily all 480; and
+LEI-typed fields draw from the 135 `ISSUED` LEIs in the GLEIF reference data, so
+referential rules genuinely resolve (verified: every PASS-row LEI passes the
+mod-97 checksum and is present in GLEIF).
+
+Conditional rules get their trigger set from the rule text — for
+`EMIR-VR-1011-02` (*"If field 1.8 is populated with 'FALSE', this field shall be
+left blank"*) the fixture sets `1.8 = FALSE`, leaves `1.11` blank on the PASS row
+and populates it with `F` on the FAIL row. 114 rules have a trigger applied this
+way; without it the FAIL row would violate nothing because ESMA's condition
+never fires.
+
+#### Coverage honesty
+
+`Coverage` states how well each row's mutation matches the rule as written,
+rather than implying uniform rigour:
+
+| Label | Rows | Meaning |
+|---|---|---|
+| `engineered` | 838 | The mutation deterministically violates (or satisfies) the rule as written — blanking a mandatory field, an out-of-list enum value, a bad checksum, a negative amount, an unresolvable identifier. |
+| `heuristic` | 112 | The target field was mutated plausibly, but the condition is free text this generator does not fully compile — the violation may not be the exact clause ESMA means. Concentrated in `Consistency`, `Conditional` and `Immutability` rules. |
+| `not-testable` | 5 | Cannot be a CSV row at all: `EMIR-XML-001/002`, `EMIR-AUTH-001/002`, `EMIR-VR-0000-00` are message-level (schema parse, authorisation, generic). Emitted as `N/A` placeholders so all 480 rules are accounted for. |
+
+Of the 475 FAIL rows, **363 are `engineered` and 112 are `heuristic`**. Treat the
+heuristic ones as *"this row is aimed at the rule"*, not *"this row is a proven
+violation"*.
+[esma_fixture_manifest.json](reference_data/esma_fixture_manifest.json) carries
+the same per-row detail as structured data for filtering.
+
+> [!WARNING]
+> **This fixture is not engine-runnable either.** It has 202 ESMA columns, while
+> `validate_and_report.py` expects the 16-column schema and dispatches on
+> `R001`–`R050`. Exercising it needs the ESMA-shaped evaluators described under
+> [the rule reference](#this-file-is-a-specification-not-a-runnable-rule-set).
+> It is a conformance fixture for a full EMIR Refit validator, not an input to
+> the demo engine in this repo.
+
+### The 50-trade reportable file
+
+[trade_data_emir_refit_50_reportable.csv](trade_data_emir_refit_50_reportable.csv)
+solves the opposite problem from the fixture above. Where that one is 955
+single-mutation rows, this is **50 trades shaped like an actual EMIR Refit
+submission** — plausible derivatives across asset classes, action types and
+lifecycle chains — for exercising the ESMA rule file against realistic input.
+
+| | |
+|---|---|
+| Rows | 50 — **28 clean**, **22 carrying a named defect** |
+| Columns | 5 control + **173 ESMA fields** (Table 1 + Table 2; margins excluded) |
+| Action types | 44 `NEWT`, plus one each `MODI`, `VALU`, `CORR`, `TERM`, `REVI`, `POSC` |
+| Populated fields | 46.6 per trade on average; 71 of 173 fields populated somewhere |
+| Counterparty pairs | 19 distinct, all real GLEIF-resolvable LEIs |
+
+**Why 28 clean trades earn their place:** one valid, fully populated report
+satisfies hundreds of rules simultaneously. The clean rows give broad PASS-path
+coverage; the 22 defect rows supply the FAIL path for named rules.
+
+**Products covered** — cleared and uncleared EUR/USD/GBP interest rate swaps and
+OIS, FX forward, FX swap and NDF, single-name and index CDS, listed equity option
+(ISIN-identified), equity total return swap, equity CFD, natural gas swap, EU
+emission allowances forward, and a crypto-asset future. Real CCPs appear where a
+trade is cleared: LCH `F226TOH6YD6XJB17KS62`, Eurex Clearing
+`529900LN3S50JPU47S06`, ICE Clear Europe `5R6J7JCQRIPQR1EEP713`.
+
+**Scenarios beyond plain products:** delegated reporting (1.2 ≠ 1.4), a
+natural-person counterparty 2 (1.8 = `FALSE`, so 1.11–1.13 correctly blank),
+NFC below clearing threshold hedging commercial activity, intragroup trade,
+broker-arranged trade, two-leg direction reporting (1.18/1.19 instead of 1.17),
+post-trade risk reduction with a PTRR ID, a position-level `POSC` report, and a
+five-report lifecycle chain (`NEWT → MODI → VALU → CORR → TERM`) all sharing one
+UTI `G5GSEF7VJP5I7OUK5573IRSEUR0001`.
+
+**The 22 defects** each target a specific rule, named in the `TargetedRules`
+column — for example:
+
+| Trade | Defect | Rule |
+|---|---|---|
+| TRD-029 | Reporting timestamp earlier than execution timestamp | `EMIR-VR-1001-04` |
+| TRD-030 | Reporting timestamp before the 2024-04-29 go-live | `EMIR-VR-1001-05` |
+| TRD-032 | Execution timestamp earlier than 1950-01-01 | `EMIR-VR-2042-02` |
+| TRD-033 | Counterparty 1 LEI absent from GLEIF | `EMIR-VR-1004-01` |
+| TRD-034 | Counterparty 1 LEI present but `RETIRED` | `EMIR-VR-1004-02` |
+| TRD-036 | Lower-case UTI on a `NEWT` | `EMIR-VR-2001-02` |
+| TRD-038 | UTI identical to the report tracking number | `EMIR-VR-2001-04` |
+| TRD-040 | CCP counterparty (1.5 = `C`) with corporate sector populated | `EMIR-VR-1006-03` |
+| TRD-044 | Leg 1 and leg 2 directions carry the same value | `EMIR-VR-1018-03` |
+| TRD-047 | `2.31 = Y` (cleared) but clearing member blank | `EMIR-VR-1016-01` |
+| TRD-049 | Both ISIN and UPI populated on one report | `EMIR-VR-2008-01` |
+| TRD-050 | Expiration date before execution and effective dates | `EMIR-VR-2044-02` |
+
+#### Verified, not just asserted
+
+Every claim in the `Notes` column is backed by a check: an independent script
+re-implements the 22 targeted rules and confirms **all 22 defect rows really do
+violate what they claim**, and that **all 28 clean rows violate none of them**.
+All 55 rule IDs cited across the file exist in the rule reference. Output is
+byte-identical on regeneration.
+
+> [!NOTE]
+> **Coverage is honest but partial**, as it must be at 50 rows: the target field
+> of **207 of the 396** Table 1–2 rules is populated in at least one trade, and
+> **55 rules are explicitly targeted**. The **79 Table 3 margin rules get no
+> coverage at all** — a margin report is a different message (`auth.108`), so it
+> needs its own file rather than columns bolted onto a trade file. Use
+> [the 955-row fixture](#the-esma-all-rules-fixture) when you need all 480.
+
 ---
 
 ## Reference data
@@ -610,6 +766,9 @@ not an oversight.
 | 7 | **`Referential` rules only prove lookup logic.** | They show the validator resolves and interprets registry data correctly — not that it's wired to a live GLEIF/DSB feed. |
 | 8 | **The ESMA rule reference isn't executable.** `validation_rules_esma_refit.json` uses real ESMA IDs; the engine dispatches on hardcoded `R001`–`R050`. | `--rules <that file>` raises `KeyError: 'R001'`. It's a specification to check the hand-written rules against — see [the section above](#this-file-is-a-specification-not-a-runnable-rule-set). |
 | 9 | **`type` in the ESMA rule file is derived, not normative.** A classifier infers it from the condition text. | 35 of 480 land in a `Content` catch-all. Every rule is flagged `"typeIsDerived": true`; use `condition` as the authority. |
+| 10 | **112 of the 475 FAIL rows in the ESMA fixture are `heuristic`, not proven violations.** Free-text `Consistency`/`Conditional`/`Immutability` conditions aren't fully compiled by the generator. | Filter on `Coverage == "engineered"` for rows you can assert on; treat `heuristic` rows as aimed-at-the-rule. Labelled per row, never silently mixed. |
+| 11 | **5 ESMA rules can't be tested by row data at all.** `EMIR-XML-001/002`, `EMIR-AUTH-001/002`, `EMIR-VR-0000-00` are message-level. | Present as `N/A` placeholder rows so all 480 rules are accounted for, but they need message-level tests (malformed XML, unauthorised submitter). |
+| 12 | **No margin-report fixture exists.** Both ESMA fixtures cover Tables 1–2; the 50-trade file excludes Table 3 columns entirely because margins are a separate message (`auth.108`). | The **79 Table 3 rules** have no realistic reportable coverage. The 955-row fixture includes 158 `MARGIN` rows, but as single-mutation test rows, not realistic margin reports. |
 
 ---
 
